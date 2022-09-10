@@ -4,6 +4,11 @@ const { resolveApiPath, apiRoutes } = require('./routes');
 
 // http.IncomingMessage
 const server = http.createServer((req, res) => {
+    let requestValidation = req.headers['api-access-code'] && req.headers['api-access-code'] === process.env['api-access-code'];
+
+    if(!requestValidation) {
+        return sendResponse(res,404,{status: 0, message:"Please provide Valid access token to get result" });
+    }
 
     if(req.url === '/') {
         return sendResponse(res,202,{status: 1, message:"API Is Working On Root Path" });
