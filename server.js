@@ -3,15 +3,13 @@ const { sendResponse } = require('./helper/utils');
 const { resolveApiPath, apiRoutes } = require('./routes');
 const constants = require('./constants.js');
 
-// http.IncomingMessage
 const server = http.createServer((req, res) => {
-    let requestValidation = req.headers['api-access-code'] === constants.API_ACCESS_KEY;
+    // API Access Token Verify
+    let u = req.url;
+    if((u.split("/")[1] == 'v1' && req.headers['api-access-key'] == constants.apiKey) || (u.match(/apiKey=([^&]*)/) && u.match(/apiKey=([^&]*)/)[1] == constants.apiKey)) {} 
+    else return sendResponse(res,404,{status: 0, message:"Please provide Valid API token" });
 
-    if(!requestValidation) {
-        return sendResponse(res,404,{status: 0, message:"Please provide Valid access token to get result" });
-    }
-
-    if(req.url === '/') {
+    if(u === '/v1' || u.split("?")[0] === '/') {
         return sendResponse(res,202,{status: 1, message:"API Is Working On Root Path" });
     }
 
@@ -29,6 +27,4 @@ const server = http.createServer((req, res) => {
 
 apiRoutes();
 
-const PORT = 8602;
-
-server.listen(PORT, ()=> {console.log(`Server is Listening On the PORT ${PORT}`)});
+server.listen(constants.PORT, ()=> {console.log(`Server is Listening On the PORT ${constants.PORT}`)});
