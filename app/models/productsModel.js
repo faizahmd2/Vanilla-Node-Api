@@ -1,4 +1,4 @@
-var { v4: uuid } = require('uuid')
+var { getUniqueId } = require('../../helper/utils')
 
 const products = require('../../data/products.json');
 const { writeDataToFile } = require('../../helper/utils');
@@ -18,7 +18,7 @@ function findById(id) {
 
 function create(product) {
     return new Promise((resolve, reject) => {
-        product = {id: uuid(), ...product};
+        product = {id: getUniqueId(), ...product};
         products.push(product);
         writeDataToFile('products.json',products);
         resolve({id: product.id});

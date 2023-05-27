@@ -93,6 +93,12 @@ var helper = {
         }
         return params;
     },
+    getUniqueId() {
+        const timestamp = Date.now().toString(36); // Convert current timestamp to base36 string
+        const randomText = Math.random().toString(36).substring(2); // Generate random text
+      
+        return timestamp + randomText;
+    }
 
 }
 
