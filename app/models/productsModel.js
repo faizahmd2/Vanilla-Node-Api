@@ -1,7 +1,5 @@
-var { getUniqueId } = require('../../helper/utils')
-
 const products = require('../../data/products.json');
-const { writeDataToFile } = require('../../helper/utils');
+const { writeDataToFile, getUniqueId } = require('../../helper/utils');
 
 function findAll() {
     return new Promise((resolve, reject) => {
